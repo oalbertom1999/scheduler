@@ -11,6 +11,7 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
+// main is the program entry point. It creates a cron scheduler with second-level precision, registers example jobs, starts the scheduler and prints upcoming run times, then blocks until SIGINT or SIGTERM and performs a graceful shutdown.
 func main() {
 	// Create a new cron scheduler with second precision
 	c := cron.New(cron.WithSeconds())
@@ -36,6 +37,16 @@ func main() {
 	fmt.Println("✅ Scheduler stopped gracefully")
 }
 
+// registerJobs registers a set of example scheduled jobs on the provided cron scheduler.
+// 
+// It schedules:
+// - HelloWorldJob to run every 10 seconds.
+// - TimeReportJob to run at the start of every minute.
+// - CleanupJob to run every 5 minutes.
+// - DailyReportJob to run daily at 09:00.
+// - EmailJob (struct) to run every Monday at 10:00 with a preset recipient and subject.
+//
+// Any error returned by the scheduler when adding a job is logged fatally, causing the program to exit.
 func registerJobs(c *cron.Cron) {
 	// Example 1: Run every 10 seconds
 	_, err := c.AddFunc("*/10 * * * * *", jobs.HelloWorldJob)
