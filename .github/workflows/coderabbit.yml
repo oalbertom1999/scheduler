@@ -1,26 +1,29 @@
-name: CodeRabbit Review
+name: CodeRabbit Review (OpenAI)
 
 on:
   pull_request:
-    types: [opened, synchronize] # Se ejecuta al abrir o actualizar el PR
+    types: [opened, synchronize]
 
 jobs:
   review:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write # Necesario para que el bot deje comentarios
+      pull-requests: write
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # CodeRabbit necesita el historial para comparar cambios
+          fetch-depth: 0
 
       - name: CodeRabbit Review
-        uses: coderabbitai/ai-pr-review@latest
+        uses: coderabbitai/openai-pr-reviewer@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CODERABBIT_API_KEY: ${{ secrets.CODERABBIT_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
         with:
           debug: false
+          openai_light_model: gpt-4o-mini 
+          openai_heavy_model: gpt-4o-mini 
+          language: es-ES 
