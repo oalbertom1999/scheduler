@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0 # CodeRabbit necesita el historial para comparar cambios
 
       - name: CodeRabbit Review
-        uses: coderabbitai/ai-pr-review@latest
+        uses: coderabbitai/openai-pr-reviewer@latest # <--- Cambia 'ai-pr-review' por esto
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CODERABBIT_API_KEY: ${{ secrets.CODERABBIT_API_KEY }}
