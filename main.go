@@ -81,4 +81,10 @@ func registerJobs(c *cron.Cron) {
 	if err != nil {
 		log.Fatalf("Error scheduling EmailJob: %v", err)
 	}
+
+	// Example 6: Run every 30 seconds
+	_, err = c.AddFunc("*/30 * * * * *", jobs.ReportProcessorJob)
+	if err != nil {
+		log.Fatalf("Error scheduling ReportProcessorJob: %v", err)
+	}
 }
