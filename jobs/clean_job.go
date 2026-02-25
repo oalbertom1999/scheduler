@@ -23,6 +23,10 @@ type CleanProcessorJob struct {
 func (c *CleanProcessorJob) Run() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+	if ctx.Err() != nil {
+		fmt.Println("❌ Error al crear el contexto:", ctx.Err())
+		return
+	}
 
 	fmt.Printf("[%s] 🚀 Iniciando procesamiento del usuario %d\n", 
 		time.Now().Format(time.RFC3339), c.UserID)
@@ -32,11 +36,7 @@ func (c *CleanProcessorJob) Run() {
 
 	var u User
 	if err := row.Scan(&u.ID, &u.Email); err != nil {
-		if err == sql.ErrNoRows {
-			fmt.Println("ℹ️ No se encontró el usuario")
-			return
-		}
-		fmt.Printf("❌ Error al consultar DB: %v\n", err)
+		handleDBError(err)
 		return
 	}
 
@@ -45,4 +45,12 @@ func (c *CleanProcessorJob) Run() {
 
 func processData(u User) {
 	fmt.Printf("✅ Procesando datos para el usuario: %s\n", u.Email)
+}
+
+func handleDBError(err error) {
+	if err == sql.ErrNoRows {
+		fmt.Println("ℹ️ No se encontró el usuario")
+	} else {
+		fmt.Printf("❌ Error al consultar DB: %v\n", err)
+	}
 }
