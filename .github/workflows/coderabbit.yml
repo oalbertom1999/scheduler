@@ -1,0 +1,26 @@
+name: CodeRabbit Review
+
+on:
+  pull_request:
+    types: [opened, synchronize] # Se ejecuta al abrir o actualizar el PR
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # Necesario para que el bot deje comentarios
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # CodeRabbit necesita el historial para comparar cambios
+
+      - name: CodeRabbit Review
+        uses: coderabbitai/ai-pr-review@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CODERABBIT_API_KEY: ${{ secrets.CODERABBIT_API_KEY }}
+        with:
+          debug: false
