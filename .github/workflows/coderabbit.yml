@@ -1,4 +1,4 @@
-name: CodeRabbit Free (Groq)
+name: CodeRabbit Review (OpenAI)
 
 on:
   pull_request:
@@ -17,16 +17,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: CodeRabbit Review with Groq
+      - name: CodeRabbit Review
         uses: coderabbitai/openai-pr-reviewer@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }} 
         with:
           debug: false
-          # Configuramos el Endpoint de Groq y sus modelos
-          api_base_url: https://api.groq.com/openai/v1
-          openai_light_model: llama3-8b-8192
-          openai_heavy_model: llama3-70b-8192
-          # Opcional: Idioma de la respuesta
-          language: es-ES
+          openai_light_model: gpt-4o-mini 
+          openai_heavy_model: gpt-4o-mini 
+          language: es-ES 
