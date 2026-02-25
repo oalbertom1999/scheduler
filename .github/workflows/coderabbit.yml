@@ -24,3 +24,7 @@ jobs:
           CODERABBIT_API_KEY: ${{ secrets.CODERABBIT_API_KEY }}
         with:
           debug: false
+          openai_light_model: gpt-4o-mini
+          openai_heavy_model: gpt-4o-mini
+          lenguage: es-Es          
+          fail_on_severity: high
