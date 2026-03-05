@@ -17,12 +17,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: CodeRabbit Review (Anthropic)
-        uses: coderabbitai/anthropic-pr-reviewer@latest
+      - name: CodeRabbit Review
+        uses: coderabbitai/openai-pr-reviewer@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_KEY }}
+          # Aquí pones tu clave de OpenRouter
+          OPENAI_API_KEY: ${{ secrets.OPEN_ROUTER_KEY }} 
         with:
           debug: false
-          anthropic_model: claude-3-5-sonnet-20240620
+          # Usamos los nombres de modelos de Anthropic vía OpenRouter
+          openai_light_model: anthropic/claude-3-haiku
+          openai_heavy_model: anthropic/claude-3.5-sonnet
+          # Es VITAL cambiar la URL base para que no apunte a OpenAI
+          openai_base_url: https://openrouter.ai/api/v1
           language: es-ES
